@@ -81,36 +81,51 @@ class MMHeap
 	private:
 
 		/*
-		 * PeculateMaxUp(int index)
+		 * peculateMaxUp(int index)
 		 * 
 		 * Moves the element we're currently at to "parent" element (two rows above), if possible
 		 *
 		 * Preconditions : Heap has data in it that can be worked with, and the item on index has an even height
 		 * Postconditions: Item at index is swapped with the "parent" item. Returns the new index of the item we perculated
 		 */
-		int PerculateMaxUp(int index);
+		int perculateMaxUp(int index);
 
 		/*
-		 * PerculateMinUp(int index)
+		 * perculateMinUp(int index)
 		 * 
 		 * Moves the current element we're on to the "parent element" (two rows above, if possible)
 		 *
-		 * Preconditions : Heap has data in it, and the item on index has an odd height
+		 * Preconditions : Heap has data in it, and the item on index has an even height
 		 * Postconditions: Item at index is swapped with the "parent" item. Returns the new index of the item we perculated
 		 */
-		int PerculateMinUp(int index);
+		int perculateMinUp(int index);
 
 		/*
-		 * PerculateMaxDown(int index)
+		 * perculateMaxDown(int index)
+		 *
+		 * Moves the current element we're out down to the next "child element" (two rows down, if possible)
+		 *
+		 * Preconditions : Heap has data in it, and item on index has an odd height
+		 * Postconditions: Item at index is swapped with the "child" item. Returns the new index of the item we perculated
 		 */
+		 int perculateMaxDown(int index);
 
 		/*
-		 * PerculateMinDown(int index)
+		 * perculateMinDown(int index)
+		 *
+		 * Moves the current element we're on down to the next "child element" (two rows down, if possible)
+		 *
+		 * Preconditions : Heap has data in it, and the index has an even height
+		 * Postconditions: Item at index is swapped with the "child" item. Returns the new index of the item we perculated
 		 */
+		 int perculateMinDown(int index);
 
 		/*
 		 * isEmpty()
+		 *
+		 * If there the root is NULL, it's empty
 		 */
+		 bool isEmpty();
 
 		/*
 		 * resize()
@@ -120,11 +135,17 @@ class MMHeap
 		 * Preconditions : The vector must be full
 		 * Postconditions: The vector is now double the size it was
 		 */
+		 void resize();
 
 		/*
-		 * switch(int index)
+		 * swap(int indexOne, int indexTwo)
+		 *
+		 * Swaps the data of two data types
+		 * 
+		 * Preconditions : The data at the indexes is not NULL
+		 * Postconditions: The data at the indexes are swapped
 		 */
-
+		 void swap(int indexOne, int indexTwo);
 
 		 vector<DataType> heap;
 		 int currentIndex;
