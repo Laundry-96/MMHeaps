@@ -31,9 +31,9 @@ int main(int argc, char *argv[])
       string line;
 
       while(getline(file, line))
-	{
-	  numbers.push_back(atoi(line.c_str()));
-	}
+  {
+    numbers.push_back(atoi(line.c_str()));
+  }
     }
   else
     {
@@ -52,14 +52,17 @@ int main(int argc, char *argv[])
   cout << "*** Then deleteMax. ***" << endl;
   cout << "--------------------" << endl;
 
-  theHeap2.deleteMax();
+  //  theHeap2.deleteMax();
   theHeap2.dump();
 
 
   cout << "--------------------" << endl;
   cout << "*** Make the min-max heap in Figure 6.57. ***" << endl;
   cout << "--------------------" << endl;
-
+  for(int i; i<numbers.size();i++)
+    {
+      theHeap.insert(numbers[i]);
+    }
   theHeap.dump();
     
   cout << "--------------------" << endl;
@@ -97,4 +100,3 @@ int main(int argc, char *argv[])
 
   return 0;
 }
-
