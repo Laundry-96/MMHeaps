@@ -94,6 +94,16 @@ class MMHeap
 		void perculateUp(int index);
 
 		/*
+		 * perculateDown(int index)
+		 * 
+		 * Moves the current element we're out down to the next "child element"
+		 *
+		 * Preconditions : Heap has data in it.
+		 * Postconditions: Item at index is swapped with the "child" item.
+		 */
+		void perculateDown(int index);
+
+		/*
 		 * perculateMaxUp(int index)
 		 * 
 		 * If the current index obj is greater than parent obj, switch them

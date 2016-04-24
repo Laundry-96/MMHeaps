@@ -92,7 +92,7 @@ void MMHeap<DataType>::perculateUp(int index)
 	//Height is odd
 	else
 	{
-		//Check if we peculate up
+		//Check if we perculate up
 		if(heap[index] < heap[parent])
 		{
 			//Swap them
