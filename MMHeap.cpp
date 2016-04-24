@@ -63,24 +63,25 @@ MMHeap<DataType>::insert(DataType obj)
 template <typename DataType>
 void MMHeap<DataType>::perculateUp(int index)
 {
-	//If we are at root (because we don't want to do anything)
-	if(index == 0)
-		return;
-
 	int height = log(index) / log(2);
-	int parent = index >> 1;
+	int grandparent = index >> 2;
+
+	//If we are at root, or children of root, return
+	//(because we can't go any higher)
+	if(index < 4)
+		return;
 
 	//If height is even
 	if(height % 2 == 0)
 	{
 		//Check if we can perculate up
-		if(heap[parent] < heap[index])
+		if(heap[grandparent] < heap[index])
 		{
 			//Swap them
-			swap(parent, index);
+			swap(grandparent, index);
 
 			//Our index is now parent
-			index = parent;
+			index = grandparent;
 
 			//See if we can perculate up again
 			perculateUp(index);
@@ -93,13 +94,13 @@ void MMHeap<DataType>::perculateUp(int index)
 	else
 	{
 		//Check if we perculate up
-		if(heap[index] < heap[parent])
+		if(heap[index] < heap[grandparent])
 		{
 			//Swap them
-			swap(parent, index);
+			swap(grandparent, index);
 
 			//Our index is now parent
-			index = parent;
+			index = grandparent;
 
 			//See if we can perculate up again
 			perculateUp(index);
