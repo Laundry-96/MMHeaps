@@ -1,13 +1,44 @@
-#include "MMHeap.h"
+#include "MMheap.h"
 
 template <typename DataType>
-MMHeap<DataType>::MMHeap()
+MMheap<DataType>::MMheap()
 {
 	currentIndex = 0;
 }
 
 template <typename DataType>
-DataType MMHeap<DataType>::getMin()
+void MMheap<DataType>::dump()
+{
+	cout << "---------------------------------------" << endl;
+	cout << "Size = " << size() << endl;
+	cout << "Minimum = " << getMin() << endl;
+	cout << "Maximum = " << getMax() << endl;
+
+	int height = log(currentIndex - 1) / log(2);
+
+	if(height % 2 == 0)
+	{
+		cout << "Last level is even" << endl;
+	}
+
+	else
+	{
+		cout << "Last level is odd" << endl;
+	}
+
+	cout << "--- heap data items ---" << endl;
+
+	for(unsigned int i = 0; i < heap.size(); i++)
+	{
+		cout << "H[" << i << "] = " << heap[i] << endl;
+	}
+
+	cout << "---------------------------------------" << endl;
+
+}
+
+template <typename DataType>
+DataType MMheap<DataType>::getMin()
 {
 	if(currentIndex != 0)
 	{
@@ -18,7 +49,7 @@ DataType MMHeap<DataType>::getMin()
 }
 
 template <typename DataType>
-DataType MMHeap<DataType>::getMax()
+DataType MMheap<DataType>::getMax()
 {
 	if(currentIndex == 1)
 	{
@@ -30,16 +61,14 @@ DataType MMHeap<DataType>::getMax()
 		return heap[1];
 	}
 
-	else if(currentIndex == 3)
+	else
 	{
 		return max(heap[1], heap[2]);
 	}
-
-	return NULL;
 }
 
 template <typename DataType>
-void MMHeap<DataType>::insert(DataType obj)
+void MMheap<DataType>::insert(DataType obj)
 {
 	//If we're at root
 	if(currentIndex == 0)
@@ -61,10 +90,19 @@ void MMHeap<DataType>::insert(DataType obj)
 }
 
 template <typename DataType>
-void MMHeap<DataType>::perculateUp(int index)
+DataType MMheap<DataType>::deleteMax();
+{
+	
+}
+
+
+template <typename DataType>
+void MMheap<DataType>::perculateUp(int index)
 {
 	int height = log(index) / log(2);
 	int grandparent = index >> 2;
+
+	cout << "Currently at height " << height << endl;
 
 	//If we are at root, or children of root, return
 	//(because we can't go any higher)
@@ -74,9 +112,17 @@ void MMHeap<DataType>::perculateUp(int index)
 	//If height is even
 	if(height % 2 == 0)
 	{
+
+		cout << "Height is even" << endl;
+
+		cout << "Evaluating: " << heap[index] << " < " << heap[grandparent] << endl;
+
 		//Check if we can perculate up
 		if(heap[grandparent] < heap[index])
 		{
+
+			cout << "Swapping" << endl;
+
 			//Swap them
 			swap(grandparent, index);
 
@@ -93,9 +139,14 @@ void MMHeap<DataType>::perculateUp(int index)
 	//Height is odd
 	else
 	{
+		cout << "Height is odd" << endl;
 		//Check if we perculate up
+
+		cout << "Evaluating: " << heap[index] << " < " << heap[grandparent] << endl;
+
 		if(heap[index] < heap[grandparent])
 		{
+			cout << "Swapping" << endl;
 			//Swap them
 			swap(grandparent, index);
 
@@ -111,7 +162,7 @@ void MMHeap<DataType>::perculateUp(int index)
 }
 
 template <typename DataType>
-void MMHeap<DataType>::perculateDown(int index)
+void MMheap<DataType>::perculateDown(int index)
 {
 	int grandchildren = index << 2;
 	int height = log(index) / log(2);
@@ -280,7 +331,7 @@ void MMHeap<DataType>::perculateDown(int index)
 }
 
 template <typename DataType>
-int MMHeap<DataType>::size()
+int MMheap<DataType>::size()
 {
 	//We can just return currentIndex because
 	//even though it holds the next index we should
@@ -290,7 +341,7 @@ int MMHeap<DataType>::size()
 }
 
 template <typename DataType>
-void MMHeap<DataType>::swap(int indexOne, int indexTwo)
+void MMheap<DataType>::swap(int indexOne, int indexTwo)
 {
 	DataType temp = heap[indexOne];
 	heap[indexOne] = heap[indexTwo];
@@ -298,7 +349,7 @@ void MMHeap<DataType>::swap(int indexOne, int indexTwo)
 }
 
 template <typename DataType>
-int MMHeap<DataType>::getMaxTwoGen(int index)
+int MMheap<DataType>::getMaxTwoGen(int index)
 {
 	//We're going to have max 2 children and max 4 grandchildren 
 	//We won't fill this because this method gets called when 
@@ -356,7 +407,7 @@ int MMHeap<DataType>::getMaxTwoGen(int index)
 }
 
 /*template <typename DataType>
-int MMHeap<DataType>::getMinChild(int index)
+int MMheap<DataType>::getMinChild(int index)
 {
 	//We're going to have max 2 children and max 4 grandchildren 
 	//We won't fill this because this method gets called when 
@@ -387,7 +438,7 @@ int MMHeap<DataType>::getMinChild(int index)
 }
 
 template <typename DataType>
-int MMHeap<DataType>::getMinGrandchild(int index)
+int MMheap<DataType>::getMinGrandchild(int index)
 {
 	vector<DataType> descendents;
 	vector<int>		 indexes;
@@ -428,7 +479,7 @@ int MMHeap<DataType>::getMinGrandchild(int index)
 */
 
 template <typename DataType>
-int MMHeap<DataType>::getMinTwoGen(int index)
+int MMheap<DataType>::getMinTwoGen(int index)
 {
 	//We're going to have max 2 children and max 4 grandchildren 
 	//We won't fill this because this method gets called when 

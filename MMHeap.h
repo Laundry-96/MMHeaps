@@ -1,23 +1,24 @@
 #ifndef MMHEAP_H
 #define MMHEAP_H
 
-#include <cmath>
 #include <algorithm>
+#include <cmath>
+#include <iostream>
 #include <vector>
 
 using namespace std;
 
 template <typename DataType>
-class MMHeap
+class MMheap
 {
 	public:
 
 		/*
-		 * MMHeap()
+		 * MMheap()
 		 *
-		 * Constructor for MMHeap
+		 * Constructor for MMheap
 		 */
-		MMHeap();
+		MMheap();
 
 		/*
 		 * dump()
