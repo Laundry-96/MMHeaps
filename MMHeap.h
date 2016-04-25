@@ -160,6 +160,8 @@ class MMHeap
 		 */
 		 //void resize();
 
+		int MMHeap<DataType>::getMinTwoGen(int index);
+		int MMHeap<DataType>::getMaxTwoGen(int index)
 		/*
 		 * swap(int indexOne, int indexTwo)
 		 *
