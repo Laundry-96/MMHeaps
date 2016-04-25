@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
   cout << "*** Then deleteMax. ***" << endl;
   cout << "--------------------" << endl;
 
-  //  theHeap2.deleteMax();
+  theHeap2.deleteMax();
   theHeap2.dump();
 
 
@@ -81,18 +81,18 @@ int main(int argc, char *argv[])
   cout << "*** Then call deleteMin 3 times. ***" << endl; 
   cout << "--------------------" << endl;
 
-  //theHeap.deleteMin();
-  //theHeap.deleteMin();
-  //theHeap.deleteMin();
+  theHeap.deleteMin();
+  theHeap.deleteMin();
+  theHeap.deleteMin();
   theHeap.dump();
 
   cout << "--------------------" << endl;
   cout << "*** Then call deleteMax 3 times. ***"<<endl;
   cout << "--------------------" << endl;
 
-  //theHeap.deleteMax();
-  //theHeap.deleteMax();
-  //theHeap.deleteMax();
+  theHeap.deleteMax();
+  theHeap.deleteMax();
+  theHeap.deleteMax();
   theHeap.dump();
 
   cout << "--------------------" << endl;  

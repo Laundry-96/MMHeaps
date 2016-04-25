@@ -84,15 +84,100 @@ void MMheap<DataType>::insert(DataType obj)
 
 		//Now perculate the object up
 		perculateUp(currentIndex);
+
 	}
 
 	currentIndex++;
 }
 
 template <typename DataType>
-DataType MMheap<DataType>::deleteMax();
+DataType MMheap<DataType>::deleteMin()
 {
-	
+	DataType toRet = heap[0];
+
+	//If we only have one element
+	if(heap.size() == 1)
+	{
+		//Heap now empty
+		currentIndex--;
+		heap.pop_back();
+	}
+
+	else
+	{
+		heap[0] = heap[currentIndex - 1];
+		currentIndex--;
+		heap.pop_back();
+		perculateDown(0);
+	}
+
+	return toRet;
+}
+
+template <typename DataType>
+DataType MMheap<DataType>::deleteMax()
+{
+	DataType toRet;
+
+	//only one element in
+	if(currentIndex == 1)
+	{
+		toRet = heap[0];
+		heap.pop_back();
+		currentIndex--;
+	}
+
+	//Get the second element
+	else if(currentIndex == 2)
+	{
+		toRet = heap[1];
+		heap.pop_back();
+		currentIndex--;
+	}
+
+	else if(currentIndex == 3)
+	{
+		toRet = max(heap[1], heap[2]);
+
+		//If biggest is the last thing in the heap, don't worry about it
+		if(toRet == heap[2])
+		{
+			heap.pop_back();
+			currentIndex--;
+		}
+
+		//toRet = heap[1]
+		else
+		{
+			heap[1] = heap[2];
+			heap.pop_back();
+			currentIndex--;
+		}
+	}		
+
+	//Deal with perculate down here
+	else
+	{
+		toRet = max(heap[1], heap[2]);
+
+		if(toRet == heap[1])
+		{
+			heap[1] = heap[currentIndex - 1];
+			heap.pop_back();
+			currentIndex--;
+			perculateDown(1);
+		}
+
+		//Else: toRet = heap[2]
+		{
+			heap[2] = heap[currentIndex - 1];
+			heap.pop_back();
+			currentIndex--;
+			perculateDown(2);
+		}
+	}
+
+	return toRet;
 }
 
 
@@ -518,18 +603,18 @@ int MMheap<DataType>::getMinTwoGen(int index)
 	if(descendents.size() != 0)
 	{
 		DataType min = descendents[0];
-		int maxIndex = 0;
+		int minIndex = 0;
 
 		for(unsigned int i = 1; i < descendents.size(); i++)
 		{
 			if(min > descendents[i])
 			{
-				max = descendents[i];
-				maxIndex = i;
+				min = descendents[i];
+				minIndex = i;
 			}
 		}
 
-		return indexes[maxIndex];
+		return indexes[minIndex];
 	}
 
 	//Idk what to do. Just return index I guess.
