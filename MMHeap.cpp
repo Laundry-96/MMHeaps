@@ -39,7 +39,7 @@ DataType MMHeap<DataType>::getMax()
 }
 
 template <typename DataType>
-MMHeap<DataType>::insert(DataType obj)
+void MMHeap<DataType>::insert(DataType obj)
 {
 	//If we're at root
 	if(currentIndex == 0)
@@ -167,7 +167,7 @@ void MMHeap<DataType>::perculateDown(int index)
 			//int minChildIndex = getMinChild(index);
 			//int minGrandchildIndex = getMinGrandchild(index);
 
-			int absMin = getMinTwoGen(index;)
+			int absMin = getMinTwoGen(index);
 
 			//int absMin = heap[minChildIndex] > heap[minGrandchildIndex] ? minGrandchildIndex : minChildIndex;
 
@@ -247,12 +247,12 @@ void MMHeap<DataType>::perculateDown(int index)
 			//int maxChildIndex = getMinChild(index);
 			//int maxGrandchildIndex = getMinGrandchild(index);
 
-			int absMax = getMaxTwoGen(index;)
+			int absMax = getMaxTwoGen(index);
 
 			//int absMin = heap[minChildIndex] > heap[minGrandchildIndex] ? minGrandchildIndex : minChildIndex;
 
 			//If we're bigger than the min (base case)
-			if(heap[index] > heap[absMin])
+			if(heap[index] > heap[absMax])
 			{
 				//We're good and we can return
 				return;
@@ -355,7 +355,7 @@ int MMHeap<DataType>::getMaxTwoGen(int index)
 	return index;
 }
 
-template <typename DataType>
+/*template <typename DataType>
 int MMHeap<DataType>::getMinChild(int index)
 {
 	//We're going to have max 2 children and max 4 grandchildren 
@@ -425,6 +425,7 @@ int MMHeap<DataType>::getMinGrandchild(int index)
 
 	return index;
 }
+*/
 
 template <typename DataType>
 int MMHeap<DataType>::getMinTwoGen(int index)

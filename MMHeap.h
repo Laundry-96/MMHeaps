@@ -7,7 +7,7 @@
 
 using namespace std;
 
-<typename DataType>
+template <typename DataType>
 class MMHeap
 {
 	public:
@@ -28,6 +28,8 @@ class MMHeap
 		 * Postconditions: None
 		 */
 		void dump();
+
+		int size();
 
 		/*
 		 * insert(DataType Obj)
@@ -160,8 +162,8 @@ class MMHeap
 		 */
 		 //void resize();
 
-		int MMHeap<DataType>::getMinTwoGen(int index);
-		int MMHeap<DataType>::getMaxTwoGen(int index)
+		int getMinTwoGen(int index);
+		int getMaxTwoGen(int index);
 		/*
 		 * swap(int indexOne, int indexTwo)
 		 *
