@@ -6,6 +6,8 @@
 #include <iostream>
 #include <vector>
 
+#include "MyException.h"
+
 using namespace std;
 
 template <typename DataType>
@@ -30,6 +32,14 @@ class MMheap
 		 */
 		void dump();
 
+		/*
+		 * size()
+		 *
+		 * Returns the size of the heap
+		 *
+		 * Preconditions : None
+		 * Postconditions: None
+		 */
 		int size();
 
 		/*
@@ -105,46 +115,6 @@ class MMheap
 		 * Postconditions: Item at index is swapped with the "child" item.
 		 */
 		void perculateDown(int index);
-
-		/*
-		 * perculateMaxUp(int index)
-		 * 
-		 * If the current index obj is greater than parent obj, switch them
-		 *
-		 * Preconditions : Heap has data in it that can be worked with, and the item on index has an even height
-		 * Postconditions: Item at index is swapped with the "parent" item. Returns the new index of the item we perculated
-		 */
-		//int perculateMaxUp(int index);
-
-		/*
-		 * perculateMinUp(int index)
-		 * 
-		 * Moves the current element we're on to the "parent element" (two rows above, if possible)
-		 *
-		 * Preconditions : Heap has data in it, and the item on index has an even height
-		 * Postconditions: Item at index is swapped with the "parent" item. Returns the new index of the item we perculated
-		 */
-		//int perculateMinUp(int index);
-
-		/*
-		 * perculateMaxDown(int index)
-		 *
-		 * Moves the current element we're out down to the next "child element" (two rows down, if possible)
-		 *
-		 * Preconditions : Heap has data in it, and item on index has an odd height
-		 * Postconditions: Item at index is swapped with the "child" item. Returns the new index of the item we perculated
-		 */
-		//int perculateMaxDown(int index);
-
-		/*
-		 * perculateMinDown(int index)
-		 *
-		 * Moves the current element we're on down to the next "child element" (two rows down, if possible)
-		 *
-		 * Preconditions : Heap has data in it, and the index has an even height
-		 * Postconditions: Item at index is swapped with the "child" item. Returns the new index of the item we perculated
-		 */
-		 //int perculateMinDown(int index);
 
 		/*
 		 * isEmpty()

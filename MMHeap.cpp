@@ -9,12 +9,12 @@ MMheap<DataType>::MMheap()
 template <typename DataType>
 void MMheap<DataType>::dump()
 {
-	cout << "---------------------------------------" << endl;
+	cout << "--- min-max heap dump ---"  << endl;
 	cout << "Size = " << size() << endl;
 	cout << "Minimum = " << getMin() << endl;
 	cout << "Maximum = " << getMax() << endl;
 
-	int height = log(currentIndex - 1) / log(2);
+	int height = log(currentIndex) / log(2);
 
 	if(height % 2 == 0)
 	{
@@ -30,10 +30,8 @@ void MMheap<DataType>::dump()
 
 	for(unsigned int i = 0; i < heap.size(); i++)
 	{
-		cout << "H[" << i << "] = " << heap[i] << endl;
+		cout << "H[" << i+1 << "] = " << heap[i] << endl;
 	}
-
-	cout << "---------------------------------------" << endl;
 
 }
 
@@ -45,12 +43,17 @@ DataType MMheap<DataType>::getMin()
 		return heap[0];
 	}
 
-	return NULL;
+	throw MyException("The heap is empty.");
 }
 
 template <typename DataType>
 DataType MMheap<DataType>::getMax()
 {
+	if(currentIndex == 0)
+	{
+		throw MyException("The heap is empty.");
+	}
+
 	if(currentIndex == 1)
 	{
 		return heap[0];
@@ -93,6 +96,12 @@ void MMheap<DataType>::insert(DataType obj)
 template <typename DataType>
 DataType MMheap<DataType>::deleteMin()
 {
+
+	if(currentIndex == 0)
+	{
+		throw MyException("The heap is empty");
+	}
+
 	DataType toRet = heap[0];
 
 	//If we only have one element
@@ -117,6 +126,12 @@ DataType MMheap<DataType>::deleteMin()
 template <typename DataType>
 DataType MMheap<DataType>::deleteMax()
 {
+
+	if(currentIndex == 0)
+	{
+		throw MyException("The heap is empty");
+	}
+
 	DataType toRet;
 
 	//only one element in
@@ -169,6 +184,7 @@ DataType MMheap<DataType>::deleteMax()
 		}
 
 		//Else: toRet = heap[2]
+		else
 		{
 			heap[2] = heap[currentIndex - 1];
 			heap.pop_back();
@@ -184,9 +200,7 @@ DataType MMheap<DataType>::deleteMax()
 template <typename DataType>
 void MMheap<DataType>::perculateUp(int index)
 {
-	bool hasSwitched = false;
-	//If we are at root, or children of root, return
-	//(because we can't go any higher)
+	//WE ONLY CARE ABOUT FIRST 3 NODES HERE
 	if(index < 3)
 	{
 		if(index == 0)
@@ -197,100 +211,77 @@ void MMheap<DataType>::perculateUp(int index)
 
 		int parent = (index - 1) / 2;
 
-		//cout << "Evaluating: " << heap[index] << " < " << heap[parent] << endl;
-		//PARENT SHOULD BE GREATER THAN
-		if(heap[parent] < heap[index])
+		//PARENT SHOULD BE LESS THAN
+		//SO WE CHECK IF IT'S BIGGER
+		if(heap[parent] > heap[index])
 		{
-			//cout << "Swapping" << endl;
 			swap(parent, index);
 		}
 
 		return;
 	}
 
-	int height = (log(index) / log(2));
-	//cout << "Currently at height " << height << endl;
-	//cout << "index " << index << endl;
-	//cout << "calc  " << (log(index) / log(2)) << endl;
+
+	bool hasSwitched = false;
 	int parent = (index - 1) / 2;
 	int grandparent = (parent - 1) / 2;
 
+	unsigned int height = log(index + 1) / log(2);
 
-	//cout << "Index is : " << index << endl;
-	//cout << "grand par: " << grandparent << endl;
-
-	//If height is even
+	//If even
 	if(height % 2 == 0)
 	{
-		//cout << "Height is odd" << endl;
-
-		//cout << "Evaluating: " << heap[index] << " < " << heap[grandparent] << endl;
-
-		//Check if we can perculate up
-		if(heap[grandparent] > heap[index])
+		//Parent should be greater than
+		if(heap[parent] < heap[index])
 		{
-
 			hasSwitched = true;
 
-			//cout << "Swapping" << endl;
+			swap(parent, index);
 
-			//Swap them
+			index = parent;
+
+			perculateUp(index);
+		}
+
+		//Grandparent should be less than
+		else if(!hasSwitched && heap[grandparent] > heap[index])
+		{
+			hasSwitched = true;
+
 			swap(grandparent, index);
 
-			//Our index is now parent
 			index = grandparent;
 
-			//See if we can perculate up again
 			perculateUp(index);
-
-
 		}
-
-		if(!hasSwitched)
-		{
-			int parent = (index - 1) / 2;
-
-			//PARENT SHOULD BE GREATER THAN
-			if(heap[parent] > heap[index])
-				swap(parent, index);
-		}
-
-		//Else: We can't perculateUp so continue this method to exit
 	}
 
-	//Height is odd
+	//Else: odd
 	else
 	{
-		//cout << "Height is odd" << endl;
-		//Check if we perculate up
-
-		//cout << "Evaluating: " << heap[index] << " < " << heap[grandparent] << endl;
-
-		if(heap[grandparent] > heap[index])
+		//Parent should be less than
+		if(heap[parent] > heap[index])
 		{
 			hasSwitched = true;
-			//cout << "Swapping" << endl;
-			//Swap them
-			swap(grandparent, index);
 
-			//Our index is now parent
-			index = grandparent;
+			swap(parent, index);
 
-			//See if we can perculate up again
+			index = parent;
+
 			perculateUp(index);
 		}
 
-		if(!hasSwitched)
+		//Grandparent should be greater than
+		else if(!hasSwitched && heap[grandparent] < heap[index])
 		{
+			hasSwitched = true;
 
-			int parent = (index - 1) / 2;
+			swap(grandparent, index);
 
-			//PARENT SHOULD BE SMALLER THAN
-			if(heap[parent] < heap[index])
-				swap(parent, index);
+			index = grandparent;
+
+			perculateUp(index);
 		}
-
-		//Else: We can't perculateUp so we continue this method to exit
 	}
 }
 
@@ -299,33 +290,29 @@ void MMheap<DataType>::perculateDown(int index)
 {
 	int child = (index * 2) + 1;
 	int grandchildren = (child * 2) + 1;
-	int height = log(index) / log(2);
+	int height = log(index + 1) / log(2);
 
-	//We are on an ODD height (root is level 1)
+	//We are on an even height
 	if(height % 2 == 0)
 	{
 		//We have all of our grandchildren
 		if((grandchildren + 4) < currentIndex)
 		{
-			cout << "heap at index: " << heap[index] << endl;
-			cout << "grandchildren: " << endl;
+
 			//Get the smallest one
 			int smallestGrandchild = grandchildren;
-			cout << heap[smallestGrandchild] << endl;
 
 			for(int i = grandchildren + 1; i < grandchildren + 4; i++)
 			{
-				cout << heap[grandchildren + i] << endl;
 				if(heap[smallestGrandchild] > heap[i])
 					smallestGrandchild = i;
 			}
 
-			cout << "smallest grandchild is " << heap[smallestGrandchild];
-
+			//We should be smaller than our smallest grandchild
 			//Base case: We're in the right position so check parent, and return
 			if(heap[index] < heap[smallestGrandchild])
 			{
-				int parent = index / 2;
+				int parent = (index - 1) / 2;
 
 				//We should be less than parent
 				if(heap[index] > heap[parent])
@@ -354,12 +341,7 @@ void MMheap<DataType>::perculateDown(int index)
 		else
 		{
 			//Get the minimum data from the next two generations
-			//int minChildIndex = getMinChild(index);
-			//int minGrandchildIndex = getMinGrandchild(index);
-
 			int absMin = getMinTwoGen(index);
-
-			//int absMin = heap[minChildIndex] > heap[minGrandchildIndex] ? minGrandchildIndex : minChildIndex;
 
 			//If we're smaller than the min (base case)
 			if(heap[index] < heap[absMin])
@@ -367,8 +349,6 @@ void MMheap<DataType>::perculateDown(int index)
 				//We're good and we can return
 				return;
 			}
-
-
 
 			//If we're bigger than min, that's not good.
 			else
@@ -403,6 +383,7 @@ void MMheap<DataType>::perculateDown(int index)
 					biggestGrandchild = i;
 			}
 
+			//We should be bigger than our biggest grandchild
 			//Base case: We're in the right position so check parent, and return
 			if(heap[index] > heap[biggestGrandchild])
 			{
@@ -442,7 +423,7 @@ void MMheap<DataType>::perculateDown(int index)
 
 			//int absMin = heap[minChildIndex] > heap[minGrandchildIndex] ? minGrandchildIndex : minChildIndex;
 
-			//If we're bigger than the min (base case)
+			//If we're bigger than the max (base case)
 			if(heap[index] > heap[absMax])
 			{
 				//We're good and we can return
@@ -451,7 +432,7 @@ void MMheap<DataType>::perculateDown(int index)
 
 
 
-			//If we're smaller than min, that's not good.
+			//If we're smaller than max, that's not good.
 			else
 			{
 				swap(index, absMax);
@@ -461,7 +442,8 @@ void MMheap<DataType>::perculateDown(int index)
 
 			int parent = (index - 1) / 2;
 
-			if(heap[index] > heap[parent])
+			//We want index to be bigger than parent
+			if(heap[index] < heap[parent])
 			{
 				swap(index, parent);
 			}
@@ -546,84 +528,9 @@ int MMheap<DataType>::getMaxTwoGen(int index)
 	return index;
 }
 
-/*template <typename DataType>
-int MMheap<DataType>::getMinChild(int index)
-{
-	//We're going to have max 2 children and max 4 grandchildren 
-	//We won't fill this because this method gets called when 
-	//We don't have full grandchildren
-	vector<DataType> descendents;
-	vector<int> 	 indexes;
-
-	int children = index << 1;
-
-	//For both children
-	for(int i = 0; i < 2; i++)
-	{
-		//If valid index
-		if((children + i) < currentIndex)
-		{
-			descendents.push_back(heap[children + i]);
-			indexes.push_back(children + i);
-		}
-
-		//Else: invalid index, do nothing
-	}
-
-	if(children.size() == 0)
-		return index;
-	else if(children.size() == 1)
-		return indexes[0];
-	return children[0] > children[1] ? indexes[1] : indexes[0];
-}
-
-template <typename DataType>
-int MMheap<DataType>::getMinGrandchild(int index)
-{
-	vector<DataType> descendents;
-	vector<int>		 indexes;
-
-	int grandchild = index << 2;
-
-	//For all grandchildren
-	for(int i = 0; i < 4; i++)
-	{
-		if((grandchild + i) < currentIndex)
-		{
-			descendents.push_back(heap[grandchild + i]);
-			indexes.push_back(grandchild + i);
-		}
-
-		//Else: invalid index, do nothing
-	}
-
-	if(descendents.size() != 0)
-	{
-		DataType min = descendents[0];
-		int maxIndex = 0;
-
-		for(unsigned int i = 1; i < descendents.size(); i++)
-		{
-			if(min > descendents[i])
-			{
-				max = descendents[i];
-				maxIndex = i;
-			}
-		}
-
-		return indexes[maxIndex];
-	}
-
-	return index;
-}
-*/
-
 template <typename DataType>
 int MMheap<DataType>::getMinTwoGen(int index)
 {
-	//We're going to have max 2 children and max 4 grandchildren 
-	//We won't fill this because this method gets called when 
-	//We don't have full grandchildren
 	vector<DataType> descendents;
 	vector<int> 	 indexes;
 

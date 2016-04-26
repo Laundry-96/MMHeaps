@@ -19,6 +19,13 @@ int main()
 	theHeap.insert(6);
 	theHeap.insert(7);
 	theHeap.insert(8);
+	theHeap.insert(10);
+	theHeap.insert(0);
+	theHeap.insert(45);
+	theHeap.insert(222);
+	theHeap.insert(24);
+	theHeap.insert(7);
+	theHeap.insert(7);
 	/*theHeap.insert(9);
 	theHeap.insert(10);
 	theHeap.insert(11);
@@ -27,5 +34,9 @@ int main()
 		theHeap.insert(14);	theHeap.insert(15);	theHeap.insert(16);	theHeap.insert(17);	
 */
 	theHeap.dump();
+
+		theHeap.deleteMin();
+
+		theHeap.dump();
 }
 
